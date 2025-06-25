@@ -23,3 +23,54 @@ const itemData = {
         score: 36
     }
 };
+
+document.addEventListener("DOMContentLoaded", function () {
+    const selectElement = document.querySelector("#items");
+    const imageElement = document.querySelector("#displayImage");
+    const photographerInput = document.querySelector("#photographer");
+    const descriptionInput = document.querySelector("#description");
+    const scoreInput = document.querySelector("#score");
+    const increaseButton = document.querySelector("#increaseScore");
+    const decreaseButton = document.querySelector("#decreaseScore");
+
+    // 1. Llenar el select con las opciones
+    for (const key in itemData) {
+        if (itemData.hasOwnProperty(key)) {
+            const option = document.createElement("option");
+            option.value = key;
+            option.textContent = itemData[key].name;
+            selectElement.appendChild(option);
+        }
+    }
+
+    // 2. Mostrar información al seleccionar un ítem
+    selectElement.addEventListener("change", function () {
+        const selectedKey = selectElement.value;
+        const selectedItem = itemData[selectedKey];
+
+        if (selectedItem) {
+            imageElement.src = selectedItem.image;
+            imageElement.alt = selectedItem.name;
+            photographerInput.value = selectedItem.photographer;
+            descriptionInput.value = selectedItem.description;
+            scoreInput.value = selectedItem.score;
+        }
+    });
+      // 3. Aumentar puntaje
+    increaseButton.addEventListener("click", function () {
+        const selectedKey = selectElement.value;
+        if (selectedKey && itemData[selectedKey]) {
+            itemData[selectedKey].score += 1;
+            scoreInput.value = itemData[selectedKey].score;
+        }
+    });
+
+    // 4. Disminuir puntaje
+    decreaseButton.addEventListener("click", function () {
+        const selectedKey = selectElement.value;
+        if (selectedKey && itemData[selectedKey]) {
+            itemData[selectedKey].score -= 1;
+            scoreInput.value = itemData[selectedKey].score;
+        }
+    });
+});
